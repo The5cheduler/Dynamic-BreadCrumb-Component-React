@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 import json
+from operations import getAllimmdieateChildren
 
 # initiating the app
 app = FastAPI()
@@ -9,4 +10,5 @@ crumbsData = json.load(open('../src/directory.json'))
 
 @app.get("/")
 def root():
-    return crumbsData
+    children = getAllimmdieateChildren(crumbsData)
+    return children
