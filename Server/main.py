@@ -1,4 +1,4 @@
-from fastapi import FastAPI, APIRouter
+from fastapi import FastAPI, APIRouter, Request
 import re
 import json
 from operations import getAllimmdieateChildren
@@ -7,20 +7,16 @@ from operations import getAllimmdieateChildren
 app = FastAPI()
 
 # creating my router
-my_router = APIRouter()
+my_router = APIRouter(prefix="/path")
 
 # loading the directory from Json File
 crumbsData = json.load(open('./directory.json'))
 
-def generate_route_signature(route_path : str) :
-    args 
+@app.api_route("/{path_name:path}", methods=["GET"])
+async def catch_all(path_name: str):
+    return getAllimmdieateChildren(crumbsData, path_name)
 
-
-@app.get("/path/{route_path}")
-async def get_path(route_path :str):
-    if route_path:
-        return getAllimmdieateChildren(crumbsData)
-    else :
-        print(path)
-        childrens = getAllimmdieateChildren(crumbsData, pathString = route_path)
-        return childrens
+# @app.get("/path/{route_path}")
+# async def get_path(route_path :str):
+     
+#     return getAllimmdieateChildren(crumbsData, pathString = route_path)
