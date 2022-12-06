@@ -15,7 +15,7 @@ function App() {
     const response = await fetch("http://localhost:8000/path")
     const data = await response.json()
     setdata(data.data);
-    
+    console.log(data)
   }
 
  
