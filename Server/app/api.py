@@ -1,11 +1,22 @@
 from fastapi import FastAPI, APIRouter, Request
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware import Middleware
+from starlette.middleware.cors import CORSMiddleware
 import re
 import json
 from .operations import getfirstchild, findkeys, pathIsPath
 
+middleware = [
+    Middleware(
+        CORSMiddleware,
+        allow_origins=['*'],
+        allow_credentials=True,
+        allow_methods=['*'],
+        allow_headers=['*']
+    )
+]
+
 # initiating the app
-app = FastAPI()
+app = FastAPI(middleware=middleware)
 
 # creating my router
 my_router = APIRouter(prefix="/path")
@@ -17,15 +28,6 @@ origins = [
     "http://localhost:3000",
     "localhost:3000"
 ]
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"]
-)
 
 @app.api_route("/{path_name:path}", methods=["GET"])
 async def catch_all(path_name: str):

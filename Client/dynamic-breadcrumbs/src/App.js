@@ -1,32 +1,40 @@
-import logo from './logo.svg';
-import React, { useState, useEffect} from 'react';
+
+import React, { useState, useEffect} from 'react'
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Breadcrumb from './components/Breadcrumb';
 
 
+
 function App() {
+  let path = window.location.pathname
+  const api = "http://localhost:8000/"+ path
+  // assign value of crumbs here
+  const [currentBreadcrumbs, setcrumbs] = useState([])
+  const [previousBreadcrumbs, setprevious] = useState([])
 
-   // assign value of crumbs here
-   const [data, setdata] = useState([]); 
-   const [crumbs, setcrumbs] = useState([]); 
-
-  const fetchdata = async() => {
-    const response = await fetch("http://localhost:8000/path")
-    const data = await response.json()
-    setdata(data.data);
-    console.log(data)
-  }
-
- 
+  useEffect(() => {
+      const dataFetch = async() => {
+      const response = await fetch(api)
+      const data =  await response.json() 
+      setcrumbs(data['childrenNodes'])
+      setprevious(data['previousNodes'])
+      
+      }
+      dataFetch();
+  }, []);
 
   const selected = crumb => {
-    console.log(crumb)
-  }
-
+    const loadnewCrumbs = async() => {
+    const response = await fetch(api+'/'+crumb)
+    const bcrumbs = await response.json()
+    }
+}
+   
   return (
     <div className="App container">
-      <Breadcrumb crumbs = { crumbs } selected = { selected }/>
+      <h2>Dynamic Breadcrumb Components </h2>
+        <Breadcrumb currentBreadcrumbs = { currentBreadcrumbs } previousBreadcrumbs = {previousBreadcrumbs} selected = { selected } />
     </div>
   );
 }
