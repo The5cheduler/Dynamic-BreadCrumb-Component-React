@@ -24,12 +24,40 @@ function App() {
       dataFetch();
   }, []);
 
-  const selected = crumb => {
-    const loadnewCrumbs = async() => {
-    const response = await fetch(api+'/'+crumb)
-    const bcrumbs = await response.json()
+  const selected = (crumb,ci) => {
+    let clickedDestination = '/'
+    let inpreviousLevel = false ;
+    let incurrentLevel = false ;
+    inpreviousLevel = previousBreadcrumbs.includes(crumb)
+    incurrentLevel = currentBreadcrumbs.includes(crumb)
+    
+    if (inpreviousLevel === true) {
+      let temp = ''
+      for(let i = 0; i <= ci ; i++) 
+      {
+        temp = temp + '/' + previousBreadcrumbs[i]
+      }
+      window.location.href = `${temp}`
+      
     }
-}
+    if (incurrentLevel === true) {
+      let temp = ''
+      for(let i = 0; i < previousBreadcrumbs.length ; i++) 
+      {
+        temp = temp + '/' + previousBreadcrumbs[i]
+      }
+      for (let i = 0; i <= ci ; i ++){
+        if(!currentBreadcrumbs[i].includes('.')){
+        temp = temp + '/' + currentBreadcrumbs[i]
+        }
+      }
+      window.location.href = `${temp}`
+    }
+    }
+
+
+  // window.location.href = `${crumb}`
+
    
   return (
     <div className="App container">

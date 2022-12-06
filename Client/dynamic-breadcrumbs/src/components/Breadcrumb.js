@@ -20,7 +20,7 @@ function Breadcrumb(props) {
 
                         return (
                             <li key={ci} className="breadcrumb-item align-items-center">
-                                <button className='btn btn-link' onClick={() => props.selected(crumb)}>
+                                <button className='btn btn-link' onClick={() => props.selected(crumb,ci)}>
                                     {crumb}
                                 </button>
                             </li>
@@ -35,11 +35,11 @@ function Breadcrumb(props) {
         <nav className='row justify-content-center mt-4'>
             <ol className='breadcrumb' style={ breadcrumb }>
                 {
-                    props.currentBreadcrumbs.map((crumb, ci) => {
+                    props.currentBreadcrumbs.map((crumb,ci) => {
 
                         return (
                             <li key={ci} className="breadcrumb-item align-items-center">
-                                <button className='btn btn-link' onClick={() => props.selected(crumb)}>
+                                <button className='btn btn-link' onClick={() => props.selected(crumb,ci)}>
                                     {crumb}
                                 </button>
                             </li>
