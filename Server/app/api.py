@@ -1,7 +1,8 @@
 from fastapi import FastAPI, APIRouter, Request
+from fastapi.middleware.cors import CORSMiddleware
 import re
 import json
-from operations import getfirstchild, findkeys, pathIsPath
+from .operations import getfirstchild, findkeys, pathIsPath
 
 # initiating the app
 app = FastAPI()
@@ -10,7 +11,7 @@ app = FastAPI()
 my_router = APIRouter(prefix="/path")
 
 # loading the directory from Json File
-crumbsData = json.load(open('../directory.json'))
+crumbsData = json.load(open('../Server/directory.json'))
 
 origins = [
     "http://localhost:3000",
