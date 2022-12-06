@@ -2,8 +2,8 @@ def getfirstchild(data):
     result = {}
     for key, value in data.items(): 
         if key == "type" and value == "dir":
-            result[key] = value
-            result["children"] = [*data["children"].keys()]
+            result["currentNodeType"] = value
+            result["childrenNodes"] = [*data["children"].keys()]
             return result
 
 def findkeys(node, kv):
@@ -17,6 +17,13 @@ def findkeys(node, kv):
         for j in node.values():
             for x in findkeys(j, kv):
                 yield x
+
+def pathIsPath(data):
+    result = dict(getfirstchild(data))
+    result["previousNodes"] = []
+    result["currentNode"] = None
+    return result
+
 
 
 
